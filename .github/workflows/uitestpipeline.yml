@@ -75,7 +75,14 @@ jobs:
         
         echo no | sdkmanager --install "system-images;android-33-ext5;google_apis_playstore;x86_64"
         echo no | avdmanager create avd -n emulator-5554 -k "system-images;android-33-ext5;google_apis_playstore;x86_64"
-        $ANDROID_HOME/emulator/emulator -avd emulator-5554 -no-window -no-audio -no-snapshot &
+        
+        adb start-server
+        
+        $ANDROID_HOME/emulator/emulator -avd emulator-5554 -no-window -no-boot-anim -no-audio -no-snapshot &
+        
+        adb wait-for-device
+        adb devices
+        
         waitForEmulatorToStart
       shell: bash
 
