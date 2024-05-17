@@ -30,7 +30,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        apt-get install pulseaudio
+        sudo apt-get install pulseaudio
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
