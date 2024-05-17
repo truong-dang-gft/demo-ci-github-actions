@@ -65,7 +65,7 @@ jobs:
         
         sdkmanager "system-images;android-33-ext5;google_apis_playstore;x86_64"
         echo no | avdmanager create avd --force --name Pixel_2_API_33 --abi x86_64 --package "system-images;android-33-ext5;google_apis_playstore;x86_64"
-        emulator -avd Pixel_2_API_33 -wipe-data -no-snapshot &
+        /usr/local/lib/android/sdk/emulator/emulator -avd Pixel_2_API_33 -wipe-data -no-snapshot &
         waitForEmulatorToStart
       shell: bash
         
