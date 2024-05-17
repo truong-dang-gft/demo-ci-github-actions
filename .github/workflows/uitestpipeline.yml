@@ -82,4 +82,27 @@ jobs:
         $ANDROID_HOME/emulator/emulator -avd emulator-5554 -no-window -no-audio -no-snapshot &
         waitForEmulatorToStart
       shell: bash
+
+    - name: Install mobile app
+      run: |
+        pwd
+        
+        function installApk() {
+          is_installed=false
+          fail_counter=0
+          maximum_failed_time=10
+          while [[ "$is_installed" == false ]] && [[ $fail_counter -lt $maximum_failed_time ]]; do
+            status=$(adb -P 5037 -s emulator-5554 install -g ./app/build/outputs/apks/debug/app-debug.apk | tr -d '\r')
+          
+            if [[ "$status" == *"Success"* ]]; then
+              is_installed=true
+            else
+              (( fail_counter += 1))
+              sleep 20
+            fi
+          done
+        }
+        
+        installApk
+      shell: bash
         
