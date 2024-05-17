@@ -39,3 +39,30 @@ jobs:
 
     - name: Build mobile app
       run: ./gradlew assembleDebug -x test
+
+    - name: Create and boot emulator
+      run: |
+        
+        BOOT_ANIMATION=""
+        FAIL_COUNTER=0
+        SECONDS_UNTIL_TIMEOUT=180
+        
+        function waitForEmulatorToStart() {
+          until [[ "$BOOT_ANIMATION" =~ "stopped" ]]; do
+          BOOT_ANIMATION=$(adb -e shell getprop init.svc.bootanim 2>&1 &) # Checks state of emulator while in the boot animation
+          if [[ "$BOOT_ANIMATION" =~ "device not found" || "$BOOT_ANIMATION" =~ "device offline" || "$BOOT_ANIMATION" =~ "running" ]]; then
+            ((FAIL_COUNTER += 1))
+            echo -e "\nWaiting for emulator to start.. $FAIL_COUNTER"
+            echo "Boot Animation State: $BOOT_ANIMATION"
+            if [[ ${FAIL_COUNTER} -gt ${SECONDS_UNTIL_TIMEOUT} ]]; then
+              echo -e "\nTimeout of $SECONDS_UNTIL_TIMEOUT seconds reached; failed to start emulator"
+              exit 1
+            fi
+          fi
+          sleep 1
+        done
+        
+        echo no | avdmanager create avd --force --name Pixel_2_API_33 --abi arm64-v8a --package 'system-images;android-33-ext5;google_apis_playstore;arm64-v8a'
+        emulator -avd Pixel_2_API_33 -wipe-data -no-snapshot &
+        waitForEmulatorToStart
+        
