@@ -79,7 +79,7 @@ jobs:
         
         echo no | sdkmanager --install "system-images;android-33-ext5;google_apis_playstore;x86_64"
         echo no | avdmanager create avd -n emulator-5554 -k "system-images;android-33-ext5;google_apis_playstore;x86_64"
-        $ANDROID_HOME/emulator/emulator -avd emulator-5554 -no-audio -wipe-data -no-snapshot &
+        $ANDROID_HOME/emulator/emulator -avd emulator-5554 -no-window -no-audio -no-snapshot &
         waitForEmulatorToStart
       shell: bash
         
