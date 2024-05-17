@@ -52,23 +52,19 @@ jobs:
 
     - name: Create and boot emulator
       run: |
-        BOOT_ANIMATION=""
-        FAIL_COUNTER=0
-        SECONDS_UNTIL_TIMEOUT=180
-        
         function waitForEmulatorToStart() {
-          until [[ "$BOOT_ANIMATION" =~ "stopped" ]]; do
-          BOOT_ANIMATION=$(adb -e shell getprop init.svc.bootanim 2>&1 &) # Checks state of emulator while in the boot animation
-          if [[ "$BOOT_ANIMATION" =~ "device not found" || "$BOOT_ANIMATION" =~ "device offline" || "$BOOT_ANIMATION" =~ "running" ]]; then
-            ((FAIL_COUNTER += 1))
-            echo -e "\nWaiting for emulator to start.. $FAIL_COUNTER"
-            echo "Boot Animation State: $BOOT_ANIMATION"
-            if [[ ${FAIL_COUNTER} -gt ${SECONDS_UNTIL_TIMEOUT} ]]; then
-              echo -e "\nTimeout of $SECONDS_UNTIL_TIMEOUT seconds reached; failed to start emulator"
-              exit 1
+          boot_completed=false
+          fail_counter=0
+          while [[ "$boot_completed" == false ]]; do
+            status=$(adb shell getprop sys.boot_completed | tr -d '\r')
+            echo "Booting emulator ... Elapsed time: $fail_counter s"
+            
+            if [[ "$status" == "1" ]]; then
+              boot_completed=true
+            else
+              (( fail_counter += 10))
+              sleep 10
             fi
-          fi
-          sleep 1
           done
         }
         
