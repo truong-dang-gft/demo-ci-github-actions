@@ -28,11 +28,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
       
     - name: Clone mobile app repo
       uses: actions/checkout@master
       with:
         repository: truong-dang-gft/demo-android-dice-roller-images
         token: ${{ secrets.TRUONG_GITHUB_TOKEN }}
+
+    - name: Build mobile app
+      run: ./gradlew assembleDebug -x test
