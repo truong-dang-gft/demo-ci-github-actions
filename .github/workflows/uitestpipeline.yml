@@ -64,11 +64,12 @@ jobs:
         
         echo $PATH
         echo $ANDROID_HOME
+        export ANDROID_SDK_HOME = $ANDROID_HOME
         echo $ANDROID_SDK_HOME
         
-        sdkmanager "system-images;android-33-ext5;google_apis_playstore;x86_64"
+        echo no | sdkmanager --install "system-images;android-33-ext5;google_apis_playstore;x86_64"
         echo no | avdmanager create avd -n emulator-5554 -k "system-images;android-33-ext5;google_apis_playstore;x86_64"
-        emulator -avd emulator-5554 -wipe-data -no-snapshot &
+        $ANDROID_HOME/emulator/emulator -avd emulator-5554 -wipe-data -no-snapshot &
         waitForEmulatorToStart
       shell: bash
         
