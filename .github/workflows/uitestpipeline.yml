@@ -28,6 +28,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Install dependencies
+      run: |
+        apt-get install pulseaudio
+
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
