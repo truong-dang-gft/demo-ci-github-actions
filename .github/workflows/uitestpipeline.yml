@@ -43,6 +43,9 @@ jobs:
     - name: Create and boot emulator
       run: |
         
+        export ANDROID_HOME=/usr/local/lib/android/sdk
+        export PATH=$ANDROID_HOME:$ANDROID_HOME/emulator:$PATH
+        
         BOOT_ANIMATION=""
         FAIL_COUNTER=0
         SECONDS_UNTIL_TIMEOUT=180
@@ -65,7 +68,7 @@ jobs:
         
         sdkmanager "system-images;android-33-ext5;google_apis_playstore;x86_64"
         echo no | avdmanager create avd -n emulator-5554 -k "system-images;android-33-ext5;google_apis_playstore;x86_64"
-        /usr/local/lib/android/sdk/emulator/emulator -avd emulator-5554 -wipe-data -no-snapshot &
+        emulator -avd emulator-5554 -wipe-data -no-snapshot &
         waitForEmulatorToStart
       shell: bash
         
