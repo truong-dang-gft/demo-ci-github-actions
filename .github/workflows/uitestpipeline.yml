@@ -90,8 +90,6 @@ jobs:
 
     - name: Install mobile app
       run: |
-        pwd
-        ls
         
         function installApk() {
           is_installed=false
