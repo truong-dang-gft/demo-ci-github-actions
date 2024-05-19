@@ -42,9 +42,9 @@ jobs:
       uses: android-actions/setup-android@v3
       
     - name: Clone mobile app repo
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
-        repository: truong-dang-gft/demo-android-dice-roller-images
+        repository: truong-dang-gft/sunflower
         token: ${{ secrets.TRUONG_GITHUB_TOKEN }}
 
     - name: Build mobile app
