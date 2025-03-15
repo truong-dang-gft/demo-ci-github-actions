@@ -11,6 +11,10 @@ on:
         description: 'Version of uiautomator2'
         required: true
         default: '2.25.2'
+      cucumberTags:
+        description: 'Cucumber tags to run test cases'
+        required: true
+        default: demo
       logLevel:
         description: 'Log level'
         required: true
@@ -135,5 +139,8 @@ jobs:
 
     - name: Build and run cucumber tests
       run: |
-        ./gradlew cucumber --tags @demo
+        ./gradlew cucumber --tags @$CUCUMBER_TAGS
+      shell: bash
+      env:
+        CUCUMBER_TAGS: ${{ github.event.inputs.cucumberTags }}
         
