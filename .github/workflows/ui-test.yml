@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
     inputs:
-      uiautomator2Version:
+      uiAutomator2Version:
         description: 'Version of uiautomator2'
         required: true
         default: '2.25.2'
@@ -40,7 +40,10 @@ jobs:
       run: |
         sudo apt-get install pulseaudio
         npm install -g appium
-        appium driver install uiautomator2@${{ github.event.inputs.uiautomator2Version }}
+        appium driver install uiautomator2@$UI_AUTOMATOR2_VERSION
+      shell: bash
+      env:
+        UI_AUTOMATOR2_VERSION: ${{ github.event.inputs.uiAutomator2Version }}
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
