@@ -4,22 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       uiAutomator2Version:
-        description: 'Version of uiautomator2'
+        description: 'uiAutomator2Version'
         required: true
         default: '2.25.2'
       cucumberTags:
-        description: 'Cucumber tags to run test cases'
+        description: 'cucumberTags'
         required: true
         default: demo
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-          - info
-          - warning
-          - debug
 
 jobs:
   build:
