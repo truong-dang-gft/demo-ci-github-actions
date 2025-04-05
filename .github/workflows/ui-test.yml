@@ -11,6 +11,12 @@ on:
         description: 'cucumberTags'
         required: true
         default: demo
+      emulatorProfile:
+        type: choice
+        description: 'emulatorProfile'
+        options:
+          - android-33-ext5;google_apis_playstore;x86_64
+          - android-34;google_apis_playstore;x86_64
 
 jobs:
   build:
@@ -77,8 +83,8 @@ jobs:
         export ANDROID_SDK_HOME=$ANDROID_HOME
         echo $ANDROID_SDK_HOME
         
-        echo no | sdkmanager --install "system-images;android-33-ext5;google_apis_playstore;x86_64"
-        echo no | avdmanager create avd -n emulator-5554 -k "system-images;android-33-ext5;google_apis_playstore;x86_64"
+        echo no | sdkmanager --install "system-images;$EMULATOR_PROFILE"
+        echo no | avdmanager create avd -n emulator-5554 -k "system-images;$EMULATOR_PROFILE"
         
         adb start-server
         
@@ -89,6 +95,8 @@ jobs:
         
         waitForEmulatorToStart
       shell: bash
+      env:
+        EMULATOR_PROFILE: ${{ github.event.inputs.emulatorProfile }}
 
     - name: Install mobile app
       run: |
