@@ -36,7 +36,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get install pulseaudio
-        npm install -g appium
+        npm install -g appium@2.0.0-beta.40
         appium driver install uiautomator2@$UI_AUTOMATOR2_VERSION
       shell: bash
       env:
